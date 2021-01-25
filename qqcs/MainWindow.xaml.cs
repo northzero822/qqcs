@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace qqcs
 {
@@ -21,6 +22,8 @@ namespace qqcs
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SqlConnection Connection;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,23 +41,24 @@ namespace qqcs
             builder.Password = "Sapassword1"; // 接続パスワード
             builder.InitialCatalog = "GBS_V1_DATA";  // 接続するデータベース(ここは変えないでください)
 
-            using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
-            {
-                connection.Open();
-                MessageBox.Show("接続しました");
-                InsertTest(connection);
-                SelectTest(connection);
-                UpdateTest(connection);
-                SelectTest(connection);
-                DeleteTest(connection);
+            this.Connection = new SqlConnection(builder.ConnectionString);
+            
+            this.Connection.Open();
 
-            }
+            //InsertTest();
+            StatusLabel.Content = builder.DataSource + @"/" + builder.InitialCatalog;
+
+            //SelectTest(connection);
+            //UpdateTest(connection);
+            //SelectTest(connection);
+            //DeleteTest(connection);
+
 
         }
-        private void InsertTest(SqlConnection connection)
+        private void InsertTest()
         {
             string sql = "INSERT INTO M地区 VALUES(99,'99',99,99)";
-            using (SqlCommand command = new SqlCommand(sql, connection))
+            using (SqlCommand command = new SqlCommand(sql, this.Connection))
             {
                 int rowsAffected = command.ExecuteNonQuery();
                 MessageBox.Show(rowsAffected.ToString() + " 行 挿入されました。");
@@ -96,6 +100,19 @@ namespace qqcs
                 MessageBox.Show(rowsAffected.ToString() + " 行 削除されました。");
             }
 
+        }
+
+        private void Run_Click(object sender, RoutedEventArgs e)
+        {
+            DataTable dt = new DataTable();
+            string sql = "SELECT * FROM M地区 WHERE 地区コード=99";
+            using (SqlCommand command = new SqlCommand(sql, this.Connection))
+            {
+                var addapter = new SqlDataAdapter(command);
+                addapter.Fill(dt);
+                CollectionView cv = new BindingListCollectionView(dt.AsDataView());
+                this.ResultDataGrid.ItemsSource = cv;
+            }
         }
     }
 }
