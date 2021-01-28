@@ -28,11 +28,23 @@ namespace qqcs
         {
             InitializeComponent();
 
+            LoadSettings();
             DatabaseConnection();
 
 
         }
 
+        private void LoadSettings()
+        {
+            string currentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            string file_data = string.Empty;    // ファイルのデータ
+            using (System.IO.StreamReader sr = new System.IO.StreamReader(currentDirectory + "qqcs.txt"))   // UTF-8のテキスト用
+            {
+                file_data = sr.ReadToEnd(); // ファイルのデータを「すべて」取得する
+            }
+            Console.WriteLine(file_data);
+
+        }
         private void DatabaseConnection()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
