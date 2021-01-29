@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:qqcs"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -50,8 +51,8 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" x:Name="ResultDataGrid" Margin="5" IsReadOnly="True" SelectionMode="Single" />
-                <Button Grid.Row="1" x:Name="ResultToExcel" ToolTip="Result To Excel"  Margin="4" Content="Excel作成" Width="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right" />
+                <c1:C1FlexGrid x:Name="ResultFlexGrid" Grid.Row="0" Margin="5" IsReadOnly="True" SelectionMode="Row" ShowSort="False"  />
+                <Button Grid.Row="1" x:Name="ResultToCsv" ToolTip="Result To Excel"  Margin="4" Content="CSV作成" Width="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Click="ResultToCsv_Click" />
 
             </Grid>
 

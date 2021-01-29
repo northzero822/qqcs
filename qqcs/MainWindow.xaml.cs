@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using System.Xml.Linq;
 
 namespace qqcs
 {
@@ -23,6 +24,7 @@ namespace qqcs
     public partial class MainWindow : Window
     {
         private SqlConnection Connection;
+        private DataTable dt;
 
         public MainWindow()
         {
@@ -37,12 +39,19 @@ namespace qqcs
         private void LoadSettings()
         {
             string currentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            string file_data = string.Empty;    // ファイルのデータ
-            using (System.IO.StreamReader sr = new System.IO.StreamReader(currentDirectory + "qqcs.txt"))   // UTF-8のテキスト用
+            XElement xml = XElement.Load(currentDirectory + "qqcs.xml");
+            //メンバー情報のタグ内の情報を取得する
+            IEnumerable<XElement> infos = from item in xml.Elements("member") select item;
+
+            //メンバー情報分ループして、コンソールに表示
+            foreach (XElement info in infos)
             {
-                file_data = sr.ReadToEnd(); // ファイルのデータを「すべて」取得する
+                Console.Write(info.Element("名前").Value + @",");
+                Console.Write(info.Element("住所").Value + @",");
+                Console.WriteLine(info.Element("年齢").Value);
             }
-            Console.WriteLine(file_data);
+
+            //Console.ReadKey();
 
         }
         private void DatabaseConnection()
@@ -80,7 +89,7 @@ namespace qqcs
         private void SelectTest(SqlConnection connection)
         {
             int i = 0;
-            string sql = "SELECT * FROM M地区 WHERE 地区コード=99";
+            string sql = "SELECT * FROM D売上入金 WHERE 削除区分=0 AND 伝票日付>=20200101 AND データ区分=1";
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -116,15 +125,21 @@ namespace qqcs
 
         private void Run_Click(object sender, RoutedEventArgs e)
         {
-            DataTable dt = new DataTable();
-            string sql = "SELECT * FROM M地区 WHERE 地区コード=99";
+            this.dt = new DataTable();
+            string sql = "SELECT * FROM D売上入金 WHERE 削除区分=0 AND 伝票日付>=20200101 AND データ区分=1";
             using (SqlCommand command = new SqlCommand(sql, this.Connection))
             {
                 var addapter = new SqlDataAdapter(command);
-                addapter.Fill(dt);
-                CollectionView cv = new BindingListCollectionView(dt.AsDataView());
-                this.ResultDataGrid.ItemsSource = cv;
+                addapter.Fill(this.dt);
+                CollectionView cv = new BindingListCollectionView(this.dt.AsDataView());
+                this.ResultFlexGrid.ItemsSource = cv;
             }
+        }
+
+        private void ResultToCsv_Click(object sender, RoutedEventArgs e)
+        {
+            CsvOperator co = new CsvOperator();
+            co.OutputCsv(this.dt, @"c:\okita\test.csv", true, ",");
         }
     }
 }
