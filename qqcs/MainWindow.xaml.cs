@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -89,7 +89,16 @@ namespace qqcs
         private void ResultToCsv_Click(object sender, RoutedEventArgs e)
         {
             CsvOperator co = new CsvOperator();
-            co.OutputCsv(this.dt, @"c:\okita\test.csv", true, ",");
+            var dialog = new SaveFileDialog();
+            dialog.Title = "CSVファイルを保存";
+            dialog.Filter = "CSVファイル|*.csv";
+
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                co.OutputCsv(this.dt, dialog.FileName, true, ",");
+            }
+
+            System.Windows.MessageBox.Show("CSVファイルを保存しました。", this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
