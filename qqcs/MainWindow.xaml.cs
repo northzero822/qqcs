@@ -25,49 +25,49 @@ namespace qqcs
     {
         private SqlConnection Connection;
         private DataTable dt;
+        private XElement Xml;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            LoadSettings();
+            LoadSettingFile();
+
+            SetQueryName();
+
             DatabaseConnection();
 
 
         }
 
-        private void LoadSettings()
+        private void LoadSettingFile()
         {
+
             string currentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-            XElement xml = XElement.Load(currentDirectory + "qqcs.xml");
-            //メンバー情報のタグ内の情報を取得する
-            IEnumerable<XElement> infos = from item in xml.Elements("member") select item;
+            this.Xml = XElement.Load(currentDirectory + "qqcs.xml");
 
-            //メンバー情報分ループして、コンソールに表示
-            foreach (XElement info in infos)
+
+        }
+
+        private void SetQueryName()
+        {
+            var querys = (from p in this.Xml.Elements("Query") select p);
+            foreach(var q in querys)
             {
-                Console.Write(info.Element("名前").Value + @",");
-                Console.Write(info.Element("住所").Value + @",");
-                Console.WriteLine(info.Element("年齢").Value);
+                QueryCombobox.Items.Add(q.Element("Name").Value);
             }
-
-            //Console.ReadKey();
 
         }
         private void DatabaseConnection()
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = @"172.16.3.141";   // 接続先の SQL Server インスタンス
-            builder.UserID = "sa";              // 接続ユーザー名
-            builder.Password = "Sapassword1"; // 接続パスワード
-            builder.InitialCatalog = "GBS_V1_DATA";  // 接続するデータベース(ここは変えないでください)
 
-            this.Connection = new SqlConnection(builder.ConnectionString);
-            
+            var cs = this.Xml.Element("ConnectString").Value;
+            this.Connection = new SqlConnection(cs);
+           
             this.Connection.Open();
 
             //InsertTest();
-            StatusLabel.Content = builder.DataSource + @"/" + builder.InitialCatalog;
 
             //SelectTest(connection);
             //UpdateTest(connection);
@@ -126,6 +126,10 @@ namespace qqcs
         private void Run_Click(object sender, RoutedEventArgs e)
         {
             this.dt = new DataTable();
+
+            var query = (from p in this.Xml.Elements("Query") where p.Attribute("id").Value == "0" select p).First();
+            MessageBox.Show(query.Element("Name").Value);
+
             string sql = "SELECT * FROM D売上入金 WHERE 削除区分=0 AND 伝票日付>=20200101 AND データ区分=1";
             using (SqlCommand command = new SqlCommand(sql, this.Connection))
             {

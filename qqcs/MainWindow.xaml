@@ -37,10 +37,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ComboBox Grid.Row="0" >
-                    <Label Content="請求残高一覧"/>
-                    <Label Content="月次残高一覧"/>
-                </ComboBox>
+                <ComboBox x:Name="QueryCombobox" Grid.Row="0" />
                 <DataGrid Grid.Row="1" x:Name="ConditionDataGrid"  FrozenColumnCount="1">
 
                 </DataGrid>
