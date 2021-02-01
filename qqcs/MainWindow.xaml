@@ -31,16 +31,15 @@
                 <ColumnDefinition  />
 
             </Grid.ColumnDefinitions>
-            <Grid Margin="2">
+            <Grid Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ComboBox x:Name="QueryCombobox" Grid.Row="0" />
-                <DataGrid Grid.Row="1" x:Name="ConditionDataGrid"  FrozenColumnCount="1">
-
-                </DataGrid>
+                <ComboBox x:Name="QueryCombobox" Grid.Row="0" SelectionChanged="QueryCombobox_SelectionChanged" SelectedIndex="0" />
+                <!--<DataGrid Grid.Row="1" x:Name="ConditionDataGrid" HeadersVisibility="Row" CanUserSortColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False" />-->
+                <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="Row" AllowSorting="False" AllowResizing="None" AllowDragging="None" />
                 <Button Grid.Row="2" x:Name="Run" Click="Run_Click"   Content="実行" Width="100" HorizontalAlignment="Right" />
             </Grid>
             <Grid Grid.Column="1" Margin="2">

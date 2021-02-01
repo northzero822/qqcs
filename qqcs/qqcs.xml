@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<qqcsSettings>
+  <ConnectString>
+		Data Source=172.16.3.141;Initial Catalog=GBS_V1_DATA;User ID=sa;Password=Sapassword1
+	</ConnectString>
+  <Query id="0">
+    <Name>月次売掛残高</Name>
+    <SQL>
+			SELECT 
+			* 
+			FROM 
+			S月次売掛履歴 
+			WHERE 
+			集計日 = 20200331
+		</SQL>
+    <Param id="0">
+      <Name>対象年月</Name>
+      <Value>123123</Value>
+    </Param>
+  </Query>
+  <Query id="1">
+    <Name>請求残高</Name>
+    <SQL>
+			SELECT 
+			* 
+			FROM 
+			S請求履歴
+			WHERE 
+			請求日 = 20200331
+		</SQL>
+    <Param id="0">
+      <Name>対象年月</Name>
+      <Value>202001</Value>
+    </Param>
+  </Query>
+  <Query id="2">
+    <Name>売上</Name>
+    <SQL>
+			SELECT 
+			* 
+			FROM 
+			D売上入金 
+			WHERE 
+			削除区分 = 0
+			AND データ区分 = 1
+			AND 伝票日付 = 20200331
+
+		</SQL>
+    <Param id="0">
+      <Name>開始年月日</Name>
+      <Value>20200102</Value>
+    </Param>
+    <Param id="1">
+      <Name>終了年月日</Name>
+      <Value>11111</Value>
+    </Param>
+  </Query>
+</qqcsSettings>

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace qqcs
 {
@@ -71,26 +72,35 @@ namespace qqcs
 
         private void Run_Click(object sender, RoutedEventArgs e)
         {
-            this.dt = new DataTable();
-
             var id = this.QueryCombobox.SelectedIndex;
 
-            var query = (from p in this.Xml.Elements("Query") where p.Attribute("id").Value == id.ToString() select p).First();
+            var query = (from q in this.Xml.Elements("Query") where q.Attribute("id").Value == id.ToString() select q).First();
             string sql = query.Element("SQL").Value;
             using (SqlCommand command = new SqlCommand(sql, this.Connection))
             {
                 var addapter = new SqlDataAdapter(command);
+                this.dt = new DataTable();
                 addapter.Fill(this.dt);
                 CollectionView cv = new BindingListCollectionView(this.dt.AsDataView());
                 this.ResultFlexGrid.ItemsSource = cv;
             }
+
+            // 抽出条件保存
+            query = (from p in this.Xml.Elements("Query") where p.Attribute("id").Value == id.ToString() select p).First();
+            foreach (var p in query.XPathSelectElements("Param"))
+            {
+                p.Element("Value").Value = this.ConditionFlexGrid[int.Parse(p.Attribute("id").Value), 1].ToString();
+            }
+            string currentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+            this.Xml.Save(currentDirectory + "qqcs.xml");
+
         }
 
         private void ResultToCsv_Click(object sender, RoutedEventArgs e)
         {
             CsvOperator co = new CsvOperator();
             var dialog = new SaveFileDialog();
-            dialog.Title = "CSVファイルを保存";
+            dialog.Title = "CSVファイル保存";
             dialog.Filter = "CSVファイル|*.csv";
 
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -99,6 +109,26 @@ namespace qqcs
             }
 
             System.Windows.MessageBox.Show("CSVファイルを保存しました。", this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void QueryCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var id = this.QueryCombobox.SelectedIndex;
+            var query = (from p in this.Xml.Elements("Query") where p.Attribute("id").Value == id.ToString() select p).First();
+            var dt = new DataTable();
+            dt.Columns.Add("Name");
+            dt.Columns.Add("Value");
+            foreach (var p in query.XPathSelectElements("Param"))
+            {
+                dt.Rows.Add(p.Element("Name").Value, p.Element("Value").Value);
+            }
+            CollectionView cv = new BindingListCollectionView(dt.AsDataView());
+            this.ConditionFlexGrid.ItemsSource = cv;
+            if (ConditionFlexGrid.Columns.Count > 0)
+            {
+                ConditionFlexGrid.Columns[0].IsReadOnly = true;
+            }
+            
         }
     }
 }
