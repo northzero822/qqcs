@@ -1,6 +1,0 @@
-[title]]月次
-[connection] Provider=SQLOLEDB.1;Persist Security Info=False;User ID=sa;Initial Catalog=GBS_V1_DATA;Data Source=172.16.3.239\SQLEXPRESS
-[Parameter]
-[querybegin]
-[queryend]
-
