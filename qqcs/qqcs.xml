@@ -11,7 +11,7 @@
 			FROM 
 			S月次売掛履歴 
 			WHERE 
-			集計日 = 20200331
+			集計日 = #param0
 		</SQL>
     <Param id="0">
       <Name>対象年月</Name>
@@ -26,7 +26,7 @@
 			FROM 
 			S請求履歴
 			WHERE 
-			請求日 = 20200331
+			請求日 = #param0
 		</SQL>
     <Param id="0">
       <Name>対象年月</Name>
@@ -43,7 +43,8 @@
 			WHERE 
 			削除区分 = 0
 			AND データ区分 = 1
-			AND 伝票日付 = 20200331
+			AND 伝票日付 >= param0
+			AND 伝票日付 <= param1
 
 		</SQL>
     <Param id="0">

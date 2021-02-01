@@ -76,6 +76,15 @@ namespace qqcs
 
             var query = (from q in this.Xml.Elements("Query") where q.Attribute("id").Value == id.ToString() select q).First();
             string sql = query.Element("SQL").Value;
+            // パラメータ セット
+            foreach (var p in query.XPathSelectElements("Param"))
+            {
+                if(sql.Contains("#param" + p.Attribute("id").Value))
+                {
+                    sql = sql.Replace(("#param" + p.Attribute("id").Value), this.ConditionFlexGrid[int.Parse(p.Attribute("id").Value), 1].ToString());
+                }
+            }
+
             using (SqlCommand command = new SqlCommand(sql, this.Connection))
             {
                 var addapter = new SqlDataAdapter(command);
