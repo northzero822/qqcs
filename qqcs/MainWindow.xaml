@@ -38,8 +38,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ComboBox x:Name="QueryCombobox" Grid.Row="0" SelectionChanged="QueryCombobox_SelectionChanged" SelectedIndex="0" />
-                <!--<DataGrid Grid.Row="1" x:Name="ConditionDataGrid" HeadersVisibility="Row" CanUserSortColumns="False" CanUserResizeRows="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserAddRows="False" />-->
-                <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="Row" AllowSorting="False" AllowResizing="None" AllowDragging="None" />
+                <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="None" AllowSorting="False" AllowResizing="None" AllowDragging="None" Width="295" />
                 <Button Grid.Row="2" x:Name="Run" Click="Run_Click"   Content="実行" Width="100" HorizontalAlignment="Right" />
             </Grid>
             <Grid Grid.Column="1" Margin="2">
@@ -47,7 +46,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <c1:C1FlexGrid x:Name="ResultFlexGrid" Grid.Row="0" Margin="5" IsReadOnly="True" SelectionMode="Row" ShowSort="False"  />
+                <c1:C1FlexGrid x:Name="ResultFlexGrid" Grid.Row="0" Margin="5" IsReadOnly="True" SelectionMode="Row" ShowSort="False" HeadersVisibility="Column"  />
                 <Button Grid.Row="1" x:Name="ResultToCsv" ToolTip="Result To Excel"  Margin="4" Content="CSV作成" Width="100" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Click="ResultToCsv_Click" />
 
             </Grid>

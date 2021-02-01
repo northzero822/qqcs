@@ -137,7 +137,9 @@ namespace qqcs
             {
                 ConditionFlexGrid.Columns[0].IsReadOnly = true;
             }
-            
+            ConditionFlexGrid.Columns[0].MaxWidth = 140;
+            ConditionFlexGrid.Columns[1].MaxWidth = 120;
+
         }
     }
 }
