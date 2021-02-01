@@ -68,6 +68,8 @@ namespace qqcs
            
             this.Connection.Open();
 
+            this.StatusLabel.Content = this.Connection.State;
+
         }
 
         private void Run_Click(object sender, RoutedEventArgs e)
