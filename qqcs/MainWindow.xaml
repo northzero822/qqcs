@@ -7,9 +7,12 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
-    <Window.Resources>
-    </Window.Resources>
+        Title="qqcs" Height="450" Width="800" WindowState="Maximized">
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <Button Content="settings" />
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -31,7 +34,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ComboBox x:Name="QueryCombobox" Grid.Row="0" SelectionChanged="QueryCombobox_SelectionChanged" SelectedIndex="0" />
-                <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="None" AllowSorting="False" AllowResizing="None" AllowDragging="None" Width="295" />
+                <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="None" AllowSorting="False" AllowResizing="None" AllowDragging="None" Width="295" AlternatingRowBackground="{x:Null}" />
                 <Button Grid.Row="2" x:Name="Run" Click="Run_Click"   Content="実行" Margin="2" />
             </Grid>
             <Grid Grid.Column="1" Margin="2">
