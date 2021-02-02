@@ -117,9 +117,9 @@ namespace qqcs
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 co.OutputCsv(this.dt, dialog.FileName, true, ",");
+                System.Windows.MessageBox.Show("CSVファイルを保存しました。", this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            System.Windows.MessageBox.Show("CSVファイルを保存しました。", this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void QueryCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
