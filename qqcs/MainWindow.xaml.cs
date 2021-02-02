@@ -16,13 +16,14 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using MahApps.Metro.Controls;
 
 namespace qqcs
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private SqlConnection Connection;
         private DataTable dt;
@@ -117,7 +118,7 @@ namespace qqcs
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 co.OutputCsv(this.dt, dialog.FileName, true, ",");
-                System.Windows.MessageBox.Show("CSVファイルを保存しました。", this.Title, MessageBoxButton.OK, MessageBoxImage.Information);
+                System.Windows.MessageBox.Show("CSVファイルを保存しました。", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
         }

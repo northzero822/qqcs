@@ -1,9 +1,10 @@
-﻿<Window x:Class="qqcs.MainWindow"
+﻿<mah:MetroWindow x:Class="qqcs.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:qqcs"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" 
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" WindowState="Maximized">
@@ -31,7 +32,7 @@
                 </Grid.RowDefinitions>
                 <ComboBox x:Name="QueryCombobox" Grid.Row="0" SelectionChanged="QueryCombobox_SelectionChanged" SelectedIndex="0" />
                 <c1:C1FlexGrid Grid.Row="1" x:Name="ConditionFlexGrid" HeadersVisibility="None" AllowSorting="False" AllowResizing="None" AllowDragging="None" Width="295" />
-                <Button Grid.Row="2" x:Name="Run" Click="Run_Click"   Content="実行" Width="100" HorizontalAlignment="Right" />
+                <Button Grid.Row="2" x:Name="Run" Click="Run_Click"   Content="実行" Margin="2" />
             </Grid>
             <Grid Grid.Column="1" Margin="2">
                 <Grid.RowDefinitions>
@@ -48,4 +49,4 @@
             <Label x:Name="StatusLabel" ></Label>
         </StatusBar>
     </Grid>
-</Window>
+</mah:MetroWindow>
